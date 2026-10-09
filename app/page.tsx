@@ -152,12 +152,7 @@ const gear = [
 function GearVisual({ tone, category }: { tone: string; category?: string }) {
   const kind =
     category === "BODY" ? "body" : category === "OPTICS" ? "lens" : "accessory";
-  return (
-    <div
-      className={`gear-visual gear-${kind}`}
-      aria-hidden="true"
-    />
-  );
+  return <div className={`gear-visual gear-${kind}`} aria-hidden="true" />;
 }
 
 function GearCard({
@@ -345,26 +340,6 @@ function Vault() {
       <p style={{ marginTop: "12px", color: "var(--muted-foreground)" }}>
         All camera serial numbers, custom tags, and service history records remain strictly offline in your browser instance.
       </p>
-      <div className="vault-table">
-        <div className="eyebrow" style={{ display: "grid", gridTemplateCoding: "45px 1.5fr 1fr 1fr" }}>
-          <span>ID</span>
-          <span>Record Type</span>
-          <span>Checksum</span>
-          <span>Status</span>
-        </div>
-        <div>
-          <span>01</span>
-          <strong>Metadata Index</strong>
-          <em>SHA-256</em>
-          <small>Synchronized</small>
-        </div>
-        <div>
-          <span>02</span>
-          <strong>Image Assets</strong>
-          <em>Local Blob</em>
-          <small>Verified</small>
-        </div>
-      </div>
     </div>
   );
 }
@@ -565,59 +540,6 @@ export default function Home() {
                 />
               ))}
             </section>
-            <section className="bottom-grid">
-              <div className="panel activity-panel">
-                <div className="panel-head">
-                  <div>
-                    <div className="eyebrow">FIELD NOTES</div>
-                    <h3>Latest activity</h3>
-                  </div>
-                  <MoreHorizontal />
-                </div>
-                {[
-                  ["02 OCT", "Added", "Summilux-M 50mm ASPH.", "11626"],
-                  ["28 SEP", "Updated valuation", "M11 Monochrom", "+$320"],
-                  [
-                    "18 SEP",
-                    "Trip complete",
-                    "Lisbon / September Light",
-                    "ARCHIVE",
-                  ],
-                ].map((row) => (
-                  <div className="activity-row" key={row[0]}>
-                    <span>{row[0]}</span>
-                    <div>
-                      <b>{row[1]}</b>
-                      <p>{row[2]}</p>
-                    </div>
-                    <em>{row[3]}</em>
-                  </div>
-                ))}
-              </div>
-              <div className="panel signal-panel">
-                <div className="panel-head">
-                  <div>
-                    <div className="eyebrow">MARKET SIGNAL</div>
-                    <h3>Watchlist pulse</h3>
-                  </div>
-                  <span className="live-dot">LIVE</span>
-                </div>
-                <div className="signal-chart">
-                  <div className="chart-line" />
-                  <span className="chart-value">+8.7%</span>
-                </div>
-                <p>
-                  Summilux 50mm ASPH. demand is trending upward across 14
-                  tracked listings.
-                </p>
-                <button
-                  className="text-link"
-                  onClick={() => setActive("Trade")}
-                >
-                  Open trade ledger <ArrowUpRight />
-                </button>
-              </div>
-            </section>
           </>
         )}
 
@@ -646,37 +568,6 @@ export default function Home() {
                 />
               ))}
             </section>
-            <div className="panel timeline-panel">
-              <button
-                className="timeline-toggle"
-                onClick={() => setShowTimeline(!showTimeline)}
-              >
-                <div>
-                  <div className="eyebrow">OPTICAL LINEAGE / 50MM</div>
-                  <h3>Summilux family evolution</h3>
-                </div>
-                {showTimeline ? <ChevronDown /> : <ChevronRight />}
-              </button>
-              {showTimeline && (
-                <div className="timeline">
-                  <TimelineNode
-                    era="1959"
-                    title="v1 Rigid"
-                    detail="Universal 11114 · Walter Mandler"
-                  />
-                  <TimelineNode
-                    era="1994"
-                    title="v4 Pre-ASPH."
-                    detail="11891 · Mandler optical design"
-                  />
-                  <TimelineNode
-                    era="2004"
-                    title="v5 ASPH."
-                    detail="11891 · Peter Karbe optical design"
-                  />
-                </div>
-              )}
-            </div>
           </>
         )}
 
@@ -696,99 +587,4 @@ export default function Home() {
                   <div className="flex items-start justify-center gap-4 sm:gap-5">
                     <div className="flex flex-col items-center justify-start text-center shrink-0">
                       <span className="text-[10px] font-mono tracking-[0.15em] uppercase text-zinc-500 dark:text-zinc-400 font-semibold mb-1.5 whitespace-nowrap">
-                        TOTAL VALUE
-                      </span>
-                      <span className="text-2xl sm:text-3xl lg:text-4xl font-serif font-medium tracking-tight tabular-nums text-zinc-900 dark:text-zinc-100 leading-none py-0.5 whitespace-nowrap">
-                        ${totalValue.toLocaleString()}
-                      </span>
-                    </div>
-                    <div className="h-8.5 w-[1px] bg-zinc-300/60 dark:bg-zinc-800/80 self-center shrink-0 mt-0.5" />
-                    <div className="flex flex-col items-center justify-start text-center shrink-0">
-                      <span className="text-[10px] font-mono tracking-[0.15em] uppercase text-zinc-500 dark:text-zinc-400 font-semibold mb-1.5 whitespace-nowrap">
-                        COVERAGE
-                      </span>
-                      <span className="text-2xl sm:text-3xl lg:text-4xl font-serif font-medium tabular-nums leading-none py-0.5 whitespace-nowrap">
-                        <span
-                          className={
-                            insuredCount === totalCount
-                              ? "text-zinc-900 dark:text-zinc-100"
-                              : "text-red-600 dark:text-red-500"
-                          }
-                        >
-                          {insuredCount}
-                        </span>
-                        <span className="text-zinc-400 dark:text-zinc-600 font-sans text-xl sm:text-2xl mx-0.5">
-                          /
-                        </span>
-                        <span className="text-zinc-900 dark:text-zinc-100 font-serif">
-                          {totalCount}
-                        </span>
-                      </span>
-                      <span className="text-[10px] sm:text-[11px] font-sans text-zinc-500 dark:text-zinc-400 font-medium mt-1.5 whitespace-nowrap">
-                        Assets Insured
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              className="flex items-center justify-between w-full py-4 border-b border-zinc-200 dark:border-zinc-800 gap-4 collection-anchor-divider"
-              role="group"
-              aria-label="Filter collection"
-            >
-              <div className="inline-flex items-center gap-1 p-1 h-10 bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl shrink-0 w-auto max-w-none overflow-x-visible whitespace-nowrap">
-                {[
-                  ["ALL", gear.length],
-                  ["BODY", categoryCounts.BODY],
-                  ["OPTICS", categoryCounts.OPTICS],
-                  ["ADAPTER", categoryCounts.ADAPTER],
-                  ["ACCESSORY", categoryCounts.ACCESSORY],
-                ].map(([key, count]) => {
-                  const isActive = collectionFilter === key;
-                  return (
-                    <button
-                      key={key}
-                      type="button"
-                      onClick={() =>
-                        setCollectionFilter(key as typeof collectionFilter)
-                      }
-                      className={`h-8 px-3 inline-flex items-center gap-1.5 rounded-lg text-xs font-mono tracking-[0.1em] uppercase transition-all duration-150 cursor-pointer shrink-0 whitespace-nowrap ${
-                        isActive
-                          ? "!bg-red-600 !text-white font-semibold shadow-xs"
-                          : "!text-zinc-600 dark:!text-zinc-400 hover:!text-zinc-900 dark:hover:!text-white hover:!bg-zinc-200/60 dark:hover:!bg-zinc-800/60 font-medium"
-                      }`}
-                    >
-                      <span>
-                        {key === "BODY"
-                          ? "BODIES"
-                          : key === "OPTICS"
-                            ? "LENSES"
-                            : key === "ADAPTER"
-                              ? "ADAPTERS"
-                              : key === "ACCESSORY"
-                                ? "ACCESSORIES"
-                                : "ALL"}
-                      </span>
-                      <span
-                        className={
-                          isActive
-                            ? "!text-white/80"
-                            : "!text-red-600 dark:!text-red-500 font-semibold"
-                        }
-                      >
-                        ({count})
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
-              <div className="flex items-center gap-3 bg-transparent p-0 border-0 shadow-none">
-                <Button
-                  className="bg-red-600 hover:bg-red-700 active:bg-red-800 text-white font-mono text-xs font-semibold tracking-[0.15em] uppercase px-4 h-10 rounded-xl inline-flex items-center justify-center gap-2 border-0 shadow-xs cursor-pointer transition-colors duration-150 shrink-0"
-                  onClick={() => setActive("Catalog")}
-                >
-                  <Plus data-icon="inline-start" /> Add gear
-                </Button>
-                <div
-                  className="inline-flex items-center gap-1 p-1 h-10 bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-
+                        TOTAL
