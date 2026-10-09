@@ -297,7 +297,7 @@ export default function Home() {
     collectionFilter === "ALL"
       ? gear
       : gear.filter((item) => item.tag === collectionFilter);
-  const totalValue = gear.reduce(
+const totalValue = gear.reduce(
     (sum, item) => sum + Number(item.price.replace(/[$,]/g, "")),
     0,
   );
