@@ -1076,3 +1076,39 @@ button.red-button:hover { background:#b91c1c !important; }
 .dark-shell .top-actions .text-scale-toggle span.scale-current { background:#f4f4f5; color:#18181b; }
 .top-actions .avatar { flex:0 0 auto; align-self:center; }
 
+/* Fix gear card visual placeholders */
+.gear-card .gear-visual {
+  background-color: transparent !important;
+  background-image: none !important;
+}
+
+.gear-visual::after {
+  content: "";
+  display: block;
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  border-radius: 4px;
+}
+
+.gear-visual.gear-body::after {
+  width: 48px;
+  height: 32px;
+  border: 2px solid currentColor;
+  opacity: 0.4;
+}
+
+.gear-visual.gear-lens::after {
+  width: 40px;
+  height: 40px;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  opacity: 0.4;
+}
+
+.gear-visual.gear-accessory::after {
+  width: 32px;
+  height: 32px;
+  border: 2px dashed currentColor;
+  opacity: 0.4;
+}
