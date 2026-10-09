@@ -162,7 +162,7 @@ function GearVisual({ tone, category }: { tone: string; category?: string }) {
     category === "BODY" ? "body" : category === "OPTICS" ? "lens" : "accessory";
   return (
     <div
-      className={`gear-visual gear-${tone} gear-${kind}`}
+      className={`gear-visual gear-${kind}`}
       aria-hidden="true"
     />
   );
@@ -945,6 +945,7 @@ function GearCard({
     </button>
   );
 }
+
 function CollectionTable({
   items,
   onSelect,
@@ -979,6 +980,7 @@ function CollectionTable({
     </div>
   );
 }
+
 function TargetCard({
   name,
   code,
@@ -1007,6 +1009,7 @@ function TargetCard({
     </article>
   );
 }
+
 function TimelineNode({
   era,
   title,
@@ -1025,6 +1028,7 @@ function TimelineNode({
     </div>
   );
 }
+
 function TripPlanner() {
   return (
     <section className="trip-layout">
@@ -1109,6 +1113,7 @@ function TripPlanner() {
     </section>
   );
 }
+
 function TradeLedger() {
   return (
     <section className="trade-grid">
@@ -1141,6 +1146,7 @@ function TradeLedger() {
     </section>
   );
 }
+
 function TradeItem({ name, type }: { name: string; type: string }) {
   return (
     <div className="trade-item">
@@ -1156,6 +1162,7 @@ function TradeItem({ name, type }: { name: string; type: string }) {
     </div>
   );
 }
+
 function Vault() {
   return (
     <section className="vault-panel panel">
