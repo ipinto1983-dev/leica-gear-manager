@@ -1147,3 +1147,40 @@ button.red-button:hover { background:#b91c1c !important; }
 .dark-shell .top-actions .text-scale-toggle span:hover { color:#f4f4f5; }
 .dark-shell .top-actions .text-scale-toggle span.scale-current { background:#f4f4f5; color:#18181b; }
 .top-actions .avatar { flex:0 0 auto; align-self:center; }
+
+/* Fix gear card visual placeholders */
+.gear-card .gear-visual {
+  background-color: #181818 !important;
+  background-image: none !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: relative !important;
+}
+
+.gear-card .gear-visual::after {
+  content: "" !important;
+  display: block !important;
+  position: relative !important;
+}
+
+.gear-card .gear-visual.gear-body::after {
+  width: 48px !important;
+  height: 32px !important;
+  border: 2px solid #a7a7a3 !important;
+  border-radius: 4px !important;
+}
+
+.gear-card .gear-visual.gear-lens::after {
+  width: 40px !important;
+  height: 40px !important;
+  border: 2px solid #a7a7a3 !important;
+  border-radius: 50% !important;
+}
+
+.gear-card .gear-visual.gear-accessory::after {
+  width: 32px !important;
+  height: 32px !important;
+  border: 2px dashed #a7a7a3 !important;
+  border-radius: 4px !important;
+}
