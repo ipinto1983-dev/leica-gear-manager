@@ -380,26 +380,66 @@ const totalValue = gear.reduce(
       <main className="content-wrap" style={{ zoom: "var(--app-scale)" }}>
         {active === "Dashboard" && (
           <>
-            <section className="metric-grid">
-              <div className="metric-card">
-                <span>COLLECTION VALUE</span>
-                <strong>$48,920</strong>
-                <small>
-                  <TrendingUp /> 12.4% vs last quarter
-                </small>
+            {/* Hero Welcome / Summary Bar */}
+            <section className="dashboard-hero mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
+              <div>
+                <span className="text-xs font-mono uppercase tracking-widest text-zinc-500 dark:text-zinc-400">
+                  SYSTEM STATUS: INDEXED & SECURE
+                </span>
+                <h2 className="text-4xl sm:text-5xl font-serif font-medium tracking-tight text-zinc-900 dark:text-zinc-100 mt-1">
+                  Optical Command Center
+                </h2>
               </div>
-              <div className="metric-card">
-                <span>INSTRUMENTS</span>
-                <strong>24</strong>
-                <small>18 lenses · 6 bodies</small>
-              </div>
-              <div className="metric-card">
-                <span>OPEN HUNT</span>
-                <strong>07</strong>
-                <small>3 high priority targets</small>
+              <div className="flex items-center gap-3">
+                <Button 
+                  variant="outline" 
+                  className="border-zinc-300 dark:border-zinc-800 text-xs font-mono"
+                  onClick={() => setActive("Collection")}
+                >
+                  View Full Inventory ({totalCount})
+                </Button>
               </div>
             </section>
-            <section className="gear-grid">
+
+            {/* Metrics Grid */}
+            <section className="metric-grid grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+              <div className="metric-card bg-zinc-100/60 dark:bg-zinc-900/40 border border-zinc-200/80 dark:border-zinc-800/80 p-5 rounded-xl">
+                <span className="text-[10px] font-mono tracking-wider text-zinc-500 dark:text-zinc-400 block mb-1">COLLECTION VALUATION</span>
+                <strong className="text-3xl font-serif text-zinc-900 dark:text-zinc-100">${totalValue.toLocaleString()}</strong>
+                <small className="flex items-center gap-1 text-emerald-600 dark:text-emerald-400 text-xs mt-2 font-mono">
+                  <TrendingUp className="w-3.5 h-3.5" /> 12.4% indexed appreciation
+                </small>
+              </div>
+              <div className="metric-card bg-zinc-100/60 dark:bg-zinc-900/40 border border-zinc-200/80 dark:border-zinc-800/80 p-5 rounded-xl">
+                <span className="text-[10px] font-mono tracking-wider text-zinc-500 dark:text-zinc-400 block mb-1">REGISTERED INSTRUMENTS</span>
+                <strong className="text-3xl font-serif text-zinc-900 dark:text-zinc-100">{totalCount}</strong>
+                <small className="text-zinc-500 dark:text-zinc-400 text-xs mt-2 block font-mono">
+                  {gear.filter(i => i.tag === 'OPTICS').length} lenses · {gear.filter(i => i.tag === 'BODY').length} bodies
+                </small>
+              </div>
+              <div className="metric-card bg-zinc-100/60 dark:bg-zinc-900/40 border border-zinc-200/80 dark:border-zinc-800/80 p-5 rounded-xl">
+                <span className="text-[10px] font-mono tracking-wider text-zinc-500 dark:text-zinc-400 block mb-1">OPEN HUNT LIST</span>
+                <strong className="text-3xl font-serif text-zinc-900 dark:text-zinc-100">03</strong>
+                <small className="text-zinc-500 dark:text-zinc-400 text-xs mt-2 block font-mono">
+                  Active European dealer watch
+                </small>
+              </div>
+            </section>
+
+            {/* Featured / Recent Gear Showcase */}
+            <div className="section-heading flex items-center justify-between mb-4">
+              <h3 className="text-sm font-mono tracking-wider uppercase text-zinc-500 dark:text-zinc-400">
+                Featured Instruments
+              </h3>
+              <button 
+                onClick={() => setActive("Catalog")}
+                className="text-xs font-mono text-zinc-900 dark:text-zinc-100 hover:underline flex items-center gap-1"
+              >
+                Browse Catalog <ChevronRight className="w-3 h-3" />
+              </button>
+            </div>
+            
+            <section className="gear-grid grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
               {gear.slice(0, 3).map((item) => (
                 <GearCard
                   key={item.name}
