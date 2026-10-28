@@ -1,18 +1,30 @@
 "use client";
 
 import { useState, type CSSProperties } from "react";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import {
   ArrowUpRight,
+  Bot,
+  ChevronDown,
   ChevronRight,
   CircleHelp,
+  DatabaseBackup,
+  Download,
+  Grid2X2,
   MapPin,
   Moon,
+  MoreHorizontal,
+  Plus,
   Save,
   Search,
+  Settings2,
+  ShoppingBag,
   Sun,
+  Table2,
+  TrendingUp,
   X,
 } from "lucide-react";
 
@@ -137,7 +149,7 @@ const gear = [
   },
 ];
 
-function GearVisual({ category }: { category?: string }) {
+function GearVisual({ tone, category }: { tone: string; category?: string }) {
   const kind =
     category === "BODY" ? "body" : category === "OPTICS" ? "lens" : "accessory";
   return <div className={`gear-visual gear-${kind}`} aria-hidden="true" />;
@@ -153,7 +165,7 @@ function GearCard({
   return (
     <button className="gear-card" onClick={onClick} type="button">
       <div className="card-visual-wrap">
-        <GearVisual category={item.tag} />
+        <GearVisual tone={item.tone} category={item.tag} />
         <span className="card-category">{item.tag}</span>
         <span className="mount-watermark">{item.mount.charAt(0)}</span>
       </div>
@@ -258,4 +270,317 @@ function TradeLedger() {
 function Vault() {
   return (
     <div className="vault-panel panel">
-      <div className
+      <div className="eyebrow">LOCAL VAULT STORAGE</div>
+      <h3>IndexedDB secure container</h3>
+    </div>
+  );
+}
+
+export default function Home() {
+  const [active, setActive] = useState("Dashboard");
+  const [dark, setDark] = useState(true);
+  const [assistant, setAssistant] = useState(false);
+  const [selected, setSelected] = useState<(typeof gear)[number] | null>(null);
+  const [collectionMode] = useState<"grid" | "table">("grid");
+  const [collectionFilter] = useState<
+    "ALL" | "BODY" | "OPTICS" | "ADAPTER" | "ACCESSORY"
+  >("ALL");
+  const [query, setQuery] = useState("");
+  const [scale, setScale] = useState<"S" | "L">("S");
+  const [helpOpen, setHelpOpen] = useState(false);
+  const [backupOpen, setBackupOpen] = useState(false);
+
+  const filtered = gear.filter((item) =>
+    item.name.toLowerCase().includes(query.toLowerCase()),
+  );
+  const collectionItems =
+    collectionFilter === "ALL"
+      ? gear
+      : gear.filter((item) => item.tag === collectionFilter);
+const totalValue = gear.reduce(
+    (sum, item) => sum + Number(item.price.replace(/[$,]/g, "")),
+    0,
+  );
+  const totalCount = gear.length;
+  const insuredCount = 8;
+  const collectionSections = [
+    {
+      key: "BODY",
+      label: "Camera Bodies",
+      items: collectionItems.filter((item) => item.tag === "BODY"),
+    },
+    {
+      key: "OPTICS",
+      label: "Lenses",
+      items: collectionItems.filter((item) => item.tag === "OPTICS"),
+    },
+    {
+      key: "ADAPTER",
+      label: "Adapters",
+      items: collectionItems.filter((item) => item.tag === "ADAPTER"),
+    },
+    {
+      key: "ACCESSORY",
+      label: "Accessories",
+      items: collectionItems.filter((item) => item.tag === "ACCESSORY"),
+    },
+  ];
+
+  return (
+    <div
+      className={`${dark ? "app-shell dark-shell" : "app-shell light-shell"} ${scale === "L" ? "large-text" : ""}`}
+      style={{ "--app-scale": scale === "L" ? 1.15 : 1 } as CSSProperties}
+    >
+      <header className="topbar">
+        <div className="brand">
+          <span className="brand-mark">GM</span>
+          <span className="brand-copy">
+            <strong>Photo Gear Manager</strong>
+            <small>LEICA EDITION</small>
+          </span>
+        </div>
+        <nav className="main-nav">
+          {nav.map((item) => (
+            <button
+              key={item}
+              onClick={() => setActive(item)}
+              className={active === item ? "nav-active" : ""}
+            >
+              {item}
+            </button>
+          ))}
+        </nav>
+        <div className="top-actions">
+          <button
+            className="utility-button"
+            aria-label="Save and backup"
+            title="Save / backup"
+            onClick={() => setBackupOpen(true)}
+          >
+            <Save />
+          </button>
+          <button
+            className="icon-button"
+            aria-label="Help"
+            onClick={() => setHelpOpen(true)}
+          >
+            <CircleHelp />
+          </button>
+          <button
+            className="icon-button"
+            aria-label="Toggle theme"
+            onClick={() => setDark(!dark)}
+          >
+            {dark ? <Sun /> : <Moon />}
+          </button>
+          <button className="avatar">IP</button>
+        </div>
+      </header>
+
+      <main className="content-wrap" style={{ zoom: "var(--app-scale)" }}>
+        {active === "Dashboard" && (
+          <>
+            <section className="metric-grid">
+              <div className="metric-card">
+                <span>COLLECTION VALUE</span>
+                <strong>$48,920</strong>
+                <small>
+                  <TrendingUp /> 12.4% vs last quarter
+                </small>
+              </div>
+              <div className="metric-card">
+                <span>INSTRUMENTS</span>
+                <strong>24</strong>
+                <small>18 lenses · 6 bodies</small>
+              </div>
+              <div className="metric-card">
+                <span>OPEN HUNT</span>
+                <strong>07</strong>
+                <small>3 high priority targets</small>
+              </div>
+            </section>
+            <section className="gear-grid">
+              {gear.slice(0, 3).map((item) => (
+                <GearCard
+                  key={item.name}
+                  item={item}
+                  onClick={() => setSelected(item)}
+                />
+              ))}
+            </section>
+          </>
+        )}
+
+        {active === "Catalog" && (
+          <>
+            <div className="toolbar">
+              <div className="search-wrap">
+                <Search />
+                <Input
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  placeholder="Search by name, order number or era..."
+                />
+              </div>
+            </div>
+            <section className="gear-grid catalog-grid">
+              {filtered.map((item) => (
+                <GearCard
+                  key={item.name}
+                  item={item}
+                  onClick={() => setSelected(item)}
+                />
+              ))}
+            </section>
+          </>
+        )}
+
+        {active === "Collection" && (
+          <section className="collection-view">
+            <div className="collection-hero">
+              <div>
+                <h2 className="text-6xl sm:text-7xl lg:text-[5.25rem] font-black tracking-tight text-zinc-900 dark:text-zinc-100 leading-[0.92] mb-3">
+                  Your Collection
+                </h2>
+              </div>
+              <div className="collection-hero-actions lg:col-span-4 flex justify-end items-center w-full">
+                <div className="bg-zinc-100 dark:bg-zinc-950/80 border border-zinc-200 dark:border-zinc-800/80 rounded-2xl py-4 px-5 shadow-xs inline-flex w-fit max-w-full ml-auto transition-all duration-200 overflow-hidden">
+                  <div className="flex items-start justify-center gap-4 sm:gap-5">
+                    <div className="flex flex-col items-center justify-start text-center shrink-0">
+                      <span className="text-[10px] font-mono tracking-[0.15em] uppercase text-zinc-500 dark:text-zinc-400 font-semibold mb-1.5 whitespace-nowrap">
+                        TOTAL VALUE
+                      </span>
+                      <span className="text-2xl sm:text-3xl lg:text-4xl font-serif font-medium tracking-tight tabular-nums text-zinc-900 dark:text-zinc-100 leading-none py-0.5 whitespace-nowrap">
+                        ${totalValue.toLocaleString()}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {collectionMode === "grid" ? (
+              <div className="collection-sections">
+                {collectionSections
+                  .filter((section) => section.items.length > 0)
+                  .map((section) => (
+                    <section className="collection-category" key={section.key}>
+                      <div className="collection-category-head">
+                        <h3>{section.label}</h3>
+                        <span>{section.items.length} ITEMS</span>
+                      </div>
+                      <section className="gear-grid collection-grid">
+                        {section.items.map((item) => (
+                          <GearCard
+                            key={item.name}
+                            item={item}
+                            onClick={() => setSelected(item)}
+                          />
+                        ))}
+                      </section>
+                    </section>
+                  ))}
+              </div>
+            ) : (
+              <CollectionTable items={collectionItems} onSelect={setSelected} />
+            )}
+            <section className="hunting-section">
+              <div className="section-heading">
+                <div>
+                  <div className="eyebrow">
+                    OPEN HUNTING LIST <ArrowUpRight />
+                  </div>
+                  <h2>Hunting list.</h2>
+                </div>
+                <span className="eyebrow">03 TARGETS</span>
+              </div>
+              <div className="target-grid">
+                <TargetCard
+                  name="APO-Summicron-M 50mm f/2 ASPH."
+                  code="11141"
+                  tone="wire-lens"
+                  price="$8,950"
+                />
+                <TargetCard
+                  name="Elmarit-M 28mm f/2.8 ASPH."
+                  code="11606"
+                  tone="wire-lens"
+                  price="$2,150"
+                />
+                <TargetCard
+                  name="Leica MP 0.72"
+                  code="10302"
+                  tone="wire-body"
+                  price="$5,600"
+                />
+              </div>
+            </section>
+          </section>
+        )}
+
+        {active === "Trips" && <TripPlanner />}
+        {active === "Trade" && <TradeLedger />}
+        {active === "Vault" && <Vault />}
+      </main>
+
+      <footer className="site-footer">
+        <div className="footer-brand">
+          <span className="brand-mark">GM</span>
+          <span>Photo Gear Manager — Leica Edition</span>
+        </div>
+        <span className="footer-status">Local Vault · IndexedDB Active</span>
+      </footer>
+
+      {helpOpen && (
+        <aside
+          className="help-drawer"
+          role="dialog"
+          aria-label="Gear Manager help"
+        >
+          <div className="drawer-head">
+            <div>
+              <div className="eyebrow">FIELD MANUAL</div>
+              <h3>Help & shortcuts</h3>
+            </div>
+            <button
+              className="icon-button"
+              aria-label="Close help"
+              onClick={() => setHelpOpen(false)}
+            >
+              <X />
+            </button>
+          </div>
+        </aside>
+      )}
+
+      <Dialog open={backupOpen} onOpenChange={setBackupOpen}>
+        <DialogContent className="backup-dialog">
+          <DialogTitle>Save / backup</DialogTitle>
+          <p>Keep a portable copy of your local vault data.</p>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog
+        open={!!selected}
+        onOpenChange={(open) => !open && setSelected(null)}
+      >
+        <DialogContent className="gear-dialog">
+          {selected && (
+            <div className="dialog-top-grid">
+              <div className="dialog-visual">
+                <div className="dialog-image">
+                  <GearVisual tone={selected.tone} category={selected.tag} />
+                </div>
+                <div className="dialog-summary">
+                  <DialogTitle className="dialog-product-name">
+                    {selected.name}
+                  </DialogTitle>
+                  <strong>{selected.price}</strong>
+                </div>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+    </div>
+  );
+}
